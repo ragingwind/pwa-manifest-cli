@@ -33,6 +33,7 @@
     "cli"
   ],
   "dependencies": {
+    "afile": "^0.3.2",
     "ansi-styles": "^2.2.1",
     "decamelize": "^1.2.0",
     "inquirer": "^0.12.0",

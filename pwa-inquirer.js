@@ -18,6 +18,10 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
+var _afile = require('afile');
+
+var _afile2 = _interopRequireDefault(_afile);
+
 var _manifestMembers = require('./assets/manifest-members.json');
 
 var _manifestMembers2 = _interopRequireDefault(_manifestMembers);
@@ -26,7 +30,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var pkg = _readPkg2.default.sync();
+var pkg = void 0;
+
+if (_afile2.default.sync(_path2.default.join(process.cwd(), 'package.json'))) {
+	pkg = _readPkg2.default.sync();
+}
+
+console.log(pkg);
 
 var PWAInquirer = function () {
 	function PWAInquirer() {
@@ -109,7 +119,7 @@ var PWAInquirer = function () {
 	}, {
 		key: 'name',
 		get: function get() {
-			return pkg.name || _path2.default.basename(process.cwd());
+			return pkg && pkg.name || _path2.default.basename(process.cwd());
 		}
 	}, {
 		key: 'colors',

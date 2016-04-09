@@ -2,13 +2,13 @@ import inquirer from 'inquirer';
 import ansi from 'ansi-styles';
 import readPkg from 'read-pkg';
 import path from 'path';
+import afile from 'afile';
 import members from './assets/manifest-members.json';
 
 let pkg;
 
-try {
+if (afile.sync(path.join(process.cwd(), 'package.json'))) {
 	pkg = readPkg.sync();
-} catch () {
 }
 
 class PWAInquirer {
