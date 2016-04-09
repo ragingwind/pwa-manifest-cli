@@ -4,7 +4,12 @@ import readPkg from 'read-pkg';
 import path from 'path';
 import members from './assets/manifest-members.json';
 
-const pkg = readPkg.sync();
+let pkg;
+
+try {
+	pkg = readPkg.sync();
+} catch () {
+}
 
 class PWAInquirer {
 	static get questions() {
@@ -52,7 +57,7 @@ class PWAInquirer {
 	}
 
 	static get name() {
-		return pkg.name || path.basename(process.cwd());
+		return (pkg && pkg.name) || path.basename(process.cwd());
 	}
 
 	static get colors() {
