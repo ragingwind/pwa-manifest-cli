@@ -1,0 +1,57 @@
+{
+  "name": "pwa-manifest-cli",
+  "version": "0.0.0",
+  "description": "Cli for Creating a Web Manifest for Progressive Web App with interactive mode",
+  "license": "MIT",
+  "repository": "ragingwind/pwa-manifest-cli",
+  "author": {
+    "name": "ragingwind",
+    "email": "ragingwind@gmail.com",
+    "url": "ragingwind.me"
+  },
+  "bin": {
+    "pwa-manifest": "cli.js"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+    "test": "xo src/*.js test*.js && npm run babel && ava",
+    "babel": "babel src --out-dir . --presets=es2015 && chmod +x cli.js",
+    "prepublish": "npm run babel"
+  },
+  "files": [
+    "cli.js",
+    "pwa-inquirer.js",
+    "assets"
+  ],
+  "keywords": [
+    "pwa",
+    "manifest",
+    "Progressive Web App",
+    "Web Manifest",
+    "cli"
+  ],
+  "dependencies": {
+    "ansi-styles": "^2.2.1",
+    "decamelize": "^1.2.0",
+    "inquirer": "^0.12.0",
+    "map-obj": "^1.0.1",
+    "meow": "^3.7.0",
+    "os-tmpdir": "^1.0.1",
+    "pwa-manifest": "^0.0.10",
+    "read-pkg": "^1.1.0"
+  },
+  "devDependencies": {
+    "ava": "^0.12.0",
+    "babel-cli": "^6.6.5",
+    "babel-preset-es2015": "^6.6.0",
+    "execa": "^0.2.2",
+    "xo": "^0.12.1"
+  },
+  "xo": {
+    "rules": {
+      "camelcase": 0
+    }
+  }
+}

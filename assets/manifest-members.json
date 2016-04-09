@@ -1,0 +1,95 @@
+{
+	"colors": {
+		"red": {
+			"ansi": "red",
+			"hex": "#F44336"
+		},
+		"purple": {
+			"ansi": "magenta",
+			"hex": "#9C27B0"
+		},
+		"light-blue": {
+			"ansi": "blue",
+			"hex": "#03A9F4"
+		},
+		"light-green": {
+			"ansi": "green",
+			"hex": "#03A9F4"
+		},
+		"cyan": {
+			"ansi": "cyan",
+			"hex": "#00BCD4"
+		},
+		"amber": {
+			"ansi": "yellow",
+			"hex": "#FFD740"
+		},
+		"gray":{
+			"ansi": "grey",
+			"hex": "#9E9E9E"
+		}
+	},
+	"dir": {
+		"auto": "auto",
+		"ltr": "left to right",
+		"rtl": "right to left"
+	},
+	"icons": {
+		"72": {
+	    "src": "icon-72x72.png",
+	    "sizes": "72x72",
+	    "type": "image/png"
+	  },
+		"96": {
+	    "src": "icon-96x96.png",
+	    "sizes": "96x96",
+	    "type": "image/png"
+	  },
+		"128": {
+	    "src": "icon-128x128.png",
+	    "sizes": "128x128",
+	    "type": "image/png"
+  	},
+		"144": {
+	    "src": "ms-touch-icon-144x144-precomposed.png",
+	    "sizes": "144x144",
+	    "type": "image/png"
+	  },
+		"152": {
+	    "src": "apple-touch-icon-152x152.png",
+	    "sizes": "152x152",
+	    "type": "image/png"
+  	},
+		"192": {
+	    "src": "chrome-touch-icon-192x192.png",
+	    "sizes": "192x192",
+	    "type": "image/png"
+  	},
+		"384": {
+	    "src": "chrome-splashscreen-icon-384x384.png",
+	    "sizes": "384x384",
+	    "type": "image/png"
+		},
+		"512": {
+	    "src": "icon-512x512.png",
+	    "sizes": "512x512",
+	    "type": "image/png"
+		}
+	},
+	"display": {
+		"fullscreen": "using entirety display area",
+		"standalone": "standalone native application",
+		"minimal-ui": "minimal UI set",
+		"browser": "browser UI"
+	},
+	"orientation": {
+		"any": "any orientations",
+		"natural": "primary portrait or landscape",
+		"landscape": "primary, secondary, or both landscape",
+		"landscape-primary": "primary landscape",
+		"landscape-secondary": "secondary landscape",
+		"portrait": "primary, secondary, or both portrait",
+		"portrait-primary": "primary portrait",
+		"portrait-secondary": "secondary portrait"
+	}
+}
