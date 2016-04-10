@@ -2,6 +2,7 @@
 
 > Cli for Creating a Web Manifest for Progressive Web App with interactive or command mode
 
+![](http://g.recordit.co/HIWl6UBtHM.gif)
 
 ## Install
 
