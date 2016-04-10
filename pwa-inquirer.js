@@ -36,8 +36,6 @@ if (_afile2.default.sync(_path2.default.join(process.cwd(), 'package.json'))) {
 	pkg = _readPkg2.default.sync();
 }
 
-console.log(pkg);
-
 var PWAInquirer = function () {
 	function PWAInquirer() {
 		_classCallCheck(this, PWAInquirer);
