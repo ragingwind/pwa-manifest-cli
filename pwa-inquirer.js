@@ -112,6 +112,10 @@ var PWAInquirer = function () {
 				name: 'direction',
 				message: 'Base direction',
 				choices: PWAInquirer.choices('dir')
+			}, {
+				type: 'input',
+				name: 'icons',
+				message: 'Path of a source image'
 			}];
 		}
 	}, {
