@@ -56,7 +56,7 @@ class PWAInquirer {
 		}, {
 			type: 'input',
 			name: 'icons',
-			message: 'Path of a source image',
+			message: 'Path of a source image'
 		}];
 	}
 
