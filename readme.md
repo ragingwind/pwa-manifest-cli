@@ -26,12 +26,17 @@ Options
   --theme_color Theme color in CSS color[Default: #3F51B5]
   --orientation Orientation [Default: natural]
   --direction Base direction [Default: standalone]
+  --icons Path for an image file to resize in multiple sizes for App
   --interactive Creating a manifest in interactive mode [Default: false]
 
 Examples
-  $ pwa-manifest --name='My Progressive Web App' --short='My PWA' --display=fullscreen --background_color=#fefefe --theme_color=#f44336 --orientation=any --direction=portrait
+  $ pwa-manifest --name='My Progressive Web App' --short='My PWA' --display=fullscreen --background_color=#fefefe --theme_color=#f44336 --orientation=any --direction=portrait --icons=./images/logo.png
   $ pwa-manifest --interactive
 ```
+
+### Options
+
+- icons: `icons` requires the path of source image. It will be generated to icons in multiple sizes under the actual size of the source image and the name of resized images is not able to be changed yet.
 
 ## License
 
