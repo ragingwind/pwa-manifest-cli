@@ -2,7 +2,15 @@
 
 > Cli for Creating a Web Manifest for Progressive Web App with interactive or command mode
 
-![](http://g.recordit.co/HIWl6UBtHM.gif)
+Using in interactive mode
+
+![](http://g.recordit.co/kwR4Dh7rM3.gif)
+
+or manually
+
+```sh
+ pwa-manifest --icons=./images/logo.png
+```
 
 ## Install
 
