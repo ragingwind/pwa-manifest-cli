@@ -32,18 +32,16 @@ Get more information via help
 # show help
 $ pwa-manifest --help
 
-# generate manifest and resized icons at `./app`.
-
+# generate manifest.json and resized icons to `./app`.
 $ pwa-manifest ./app --icons=./logo.png
 
-# generate manifest at `./app` and icons at `./app/images/icons`
+# generate manifest.json to `./app` and icons to `./app/images/icons`
 $ pwa-manifest ./app ./app/images/icons --icons=./logo.png
 
-# generate manifest at './' with updated values of name, short_name, background_color, theme_color, orientation, and direction as well as resizes images
-
+# generate manifest.json to './' with updated values of name, short_name, background_color, theme_color, orientation, and direction as well as resizes images
 $ pwa-manifest --name='My Progressive Web App' --short='My PWA' --display=fullscreen --background_color=#fefefe --theme_color=#f44336 --orientation=any --direction=portrait --icons=./images/logo.png
 
-# generate manifest and resized images at current working path
+# using interactive mode for generating manifest.json and resized images to current working path
 $ pwa-manifest --interactive
 ```
 
