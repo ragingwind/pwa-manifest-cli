@@ -18,33 +18,41 @@ or manually
 $ npm install --save pwa-manifest-cli
 ```
 
-
 ## Usage
 
-```shell
-Usage
-  $ pwa-manifest dest <options>
-
-Options
-  --name Name of app [Default: package name or basedir name]
-  --short_name Short name of app [Default: package name or basedir name]
-  --start_url Start URL [Default: /index.html?homescreen=1]
-  --display Display mode [Default: standalone]
-  --background_color Background color in CSS color [Default: #FFFFFF]
-  --theme_color Theme color in CSS color[Default: #3F51B5]
-  --orientation Orientation [Default: natural]
-  --direction Base direction [Default: standalone]
-  --icons Path for an image file to resize in multiple sizes for App
-  --interactive Creating a manifest in interactive mode [Default: false]
-
-Examples
-  $ pwa-manifest --name='My Progressive Web App' --short='My PWA' --display=fullscreen --background_color=#fefefe --theme_color=#f44336 --orientation=any --direction=portrait --icons=./images/logo.png
-  $ pwa-manifest --interactive
+```sh
+$ pwa-manifest <manifest path> <icons path> <options>
 ```
 
-### Options
+Get more information via help
 
-- icons: `icons` requires the path of source image. It will be generated to icons in multiple sizes under the actual size of the source image and the name of resized images is not able to be changed yet.
+## Examples
+
+```shell
+# show help
+$ pwa-manifest --help
+
+# generate manifest and resized icons at `./app`.
+
+$ pwa-manifest ./app --icons=./logo.png
+
+# generate manifest at `./app` and icons at `./app/images/icons`
+$ pwa-manifest ./app ./app/images/icons --icons=./logo.png
+
+# generate manifest at './' with updated values of name, short_name, background_color, theme_color, orientation, and direction as well as resizes images
+
+$ pwa-manifest --name='My Progressive Web App' --short='My PWA' --display=fullscreen --background_color=#fefefe --theme_color=#f44336 --orientation=any --direction=portrait --icons=./images/logo.png
+
+# generate manifest and resized images at current working path
+$ pwa-manifest --interactive
+```
+
+## Options in details
+
+### --icons
+
+`icons` requires the path of source image. It will generated those of icons in multiple sizes under the actual size of the source image and the names of resized image presetting in manifest are not able to be changed by option yet.
+
 
 ## License
 

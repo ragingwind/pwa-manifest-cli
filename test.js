@@ -4,8 +4,9 @@ import osTmpdir from 'os-tmpdir';
 import pwaManifest from 'pwa-manifest';
 import path from 'path';
 import sizeof from 'image-size';
+import cpy from 'cpy';
 
-const tmp = osTmpdir();
+let tmp = osTmpdir();
 
 const opts = {
 	name: 'My Short PWA Name',
@@ -17,21 +18,28 @@ const opts = {
 	icons: './fixtures/logo.png'
 };
 
-const args = params => [tmp].concat(Object.keys(params).map(m => `--${m}=${opts[m]}`));
+const rndTmpdir = max => path.join(osTmpdir(),
+	(Math.floor(Math.random() * (max - 0)) + 0).toString());
+
+const args = (input, params) => input.concat(Object.keys(params).map(m => `--${m}=${opts[m]}`));
 
 const verifyIcons = icons => {
 	var res = [];
 	Object.keys(icons).forEach(size => {
-		var dimensions = sizeof(path.join(tmp, icons[size].src));
+		const icon = path.resolve(process.cwd(), path.join(tmp, icons[size].src));
+		var dimensions = sizeof(icon);
 		size = Math.floor(size);
-		res.push((dimensions.height === size && dimensions.width === size));
+		res.push(
+			dimensions.height === size &&
+			dimensions.width === size
+		);
 	});
 
 	return res.every(r => r === true);
 };
 
-const exec = (opts, verify) => {
-	return execa('./cli.js', args(opts), {cwd: __dirname})
+const exec = (input, opts, verify) => {
+	return execa('./cli.js', args(input, opts), {cwd: __dirname})
 		.then(res => {
 			if (res.stdout) {
 				console.log(res.stdout);
@@ -50,45 +58,73 @@ const exec = (opts, verify) => {
 		});
 };
 
-test(t => {
-	return exec(opts, m => {
-		if (m instanceof Error) {
-			t.fail();
-			return;
-		}
+const prepare = (src, subpath) => {
+	subpath = subpath || '';
+	tmp = rndTmpdir(99999999);
 
-		t.is(m.name, opts.name);
-		t.not(m.short_name, opts.short_name);
-		t.is(m.short_name, 'My PWA Short');
-		t.is(m.start_url, opts.start_url);
-		t.is(m.display, opts.display);
-		t.is(m.orientation, opts.orientation);
-		t.is(m.background_color, opts.background_color);
-		t.ok(verifyIcons(m.icons));
+	const dest = path.join(tmp, subpath);
+	opts.icons = path.join(dest, path.basename(src));
+
+	return cpy([src], dest);
+};
+
+test(t => {
+	return prepare('./fixtures/logo.png').then(() => {
+		return exec([tmp], opts, m => {
+			if (m instanceof Error) {
+				t.fail();
+				return;
+			}
+
+			t.is(m.name, opts.name);
+			t.not(m.short_name, opts.short_name);
+			t.is(m.short_name, 'My PWA Short');
+			t.is(m.start_url, opts.start_url);
+			t.is(m.display, opts.display);
+			t.is(m.orientation, opts.orientation);
+			t.is(m.background_color, opts.background_color);
+			t.ok(verifyIcons(m.icons, tmp));
+		});
 	});
 });
 
 test(t => {
-	opts.icons = './fixtures/logo-384x384.png';
-	return exec(opts, m => {
-		if (m instanceof Error) {
-			t.fail();
-			return;
-		}
+	return prepare('./fixtures/logo-384x384.png').then(() => {
+		exec([tmp], opts, m => {
+			if (m instanceof Error) {
+				t.fail();
+				return;
+			}
 
-		const last = Object.keys(m.icons).pop();
-		t.ok(verifyIcons(m.icons));
-		t.is(Math.floor(last), 384);
+			const last = Object.keys(m.icons).pop();
+			t.ok(verifyIcons(m.icons, '.'));
+			t.is(Math.floor(last), 384);
+		});
+	});
+});
+
+test.serial(t => {
+	return prepare('./fixtures/logo-0x0.png').then(() => {
+		return exec([tmp], opts, m => {
+			if (m instanceof Error) {
+				t.pass();
+			} else {
+				t.fail();
+			}
+		});
 	});
 });
 
 test(t => {
-	opts.icons = './fixtures/logo-0x0.png';
-	return exec(opts, m => {
-		if (m instanceof Error) {
-			t.pass();
-		} else {
-			t.fail();
-		}
+	return prepare('./fixtures/logo.png', './image/icons').then(() => {
+		return exec([tmp, './image/icons'], opts, m => {
+			if (m instanceof Error) {
+				t.fail();
+				return;
+			}
+
+			Object.keys(m.icons).forEach(icon => icon.indexOf('image/icons') === 0);
+			t.ok(verifyIcons(m.icons));
+		});
 	});
 });
