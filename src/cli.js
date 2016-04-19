@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-'use strict';
+
 import meow from 'meow';
 import pwaManifest from 'pwa-manifest';
 import inquirer from './pwa-inquirer';
