@@ -1,12 +1,12 @@
 import test from 'ava';
 import execa from 'execa';
-import osTmpdir from 'os-tmpdir';
+import rndTmpdir from 'os-random-tmpdir';
 import pwaManifest from 'pwa-manifest';
 import path from 'path';
 import sizeof from 'image-size';
 import cpy from 'cpy';
 
-let tmp = osTmpdir();
+let tmp;
 
 const opts = {
 	name: 'My Short PWA Name',
@@ -17,9 +17,6 @@ const opts = {
 	background_color: '#010101',
 	icons: './fixtures/logo.png'
 };
-
-const rndTmpdir = max => path.join(osTmpdir(),
-	(Math.floor(Math.random() * (max - 0)) + 0).toString());
 
 const args = (input, params) => input.concat(Object.keys(params).map(m => `--${m}=${opts[m]}`));
 
@@ -60,7 +57,7 @@ const exec = (input, opts, verify) => {
 
 const prepare = (src, subpath) => {
 	subpath = subpath || '';
-	tmp = rndTmpdir(99999999);
+	tmp = rndTmpdir('pwa-manifest');
 
 	const dest = path.join(tmp, subpath);
 	opts.icons = path.join(dest, path.basename(src));

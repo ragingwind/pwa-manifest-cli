@@ -41,7 +41,6 @@
     "map-obj": "^1.0.1",
     "meow": "^3.7.0",
     "mkdirp": "^0.5.1",
-    "os-tmpdir": "^1.0.1",
     "pwa-manifest": "^0.1.0",
     "read-pkg": "^1.1.0",
     "square-image": "^0.0.6"
@@ -53,6 +52,7 @@
     "cpy": "^4.0.0",
     "execa": "^0.2.2",
     "image-size": "^0.5.0",
+    "os-random-tmpdir": "^0.1.0",
     "xo": "^0.12.1"
   },
   "xo": {
