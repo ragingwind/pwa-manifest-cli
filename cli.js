@@ -52,25 +52,27 @@ var ask = cli.flags.interactive ? _pwaInquirer2.default.ask() : Promise.resolve(
 }));
 var manifestDest = cli.input[0] ? _path2.default.resolve(process.cwd(), cli.input[0].replace(/manifest.json$/, '')) : process.cwd();
 var iconsDest = cli.input[1] ? _path2.default.resolve(process.cwd(), cli.input[1]) : manifestDest;
+var filterImageSize = function filterImageSize(image, max) {
+	return (0, _mapObj2.default)(_manifestMembers2.default.icons, function (size, icon) {
+		if (size <= max) {
+			return [size, icon];
+		}
+	});
+};
 
 ask.then(function (answers) {
 	if (answers.icons) {
 		var _ret = function () {
 			var filename = _path2.default.resolve(process.cwd(), answers.icons);
 			var abspath = _path2.default.resolve(manifestDest, iconsDest);
-			var dim = (0, _imageSize2.default)(filename);
-			var sizes = {};
+			var size = (0, _imageSize2.default)(filename);
 
+			// creat a target path
 			_mkdirp2.default.sync(abspath);
 
-			Object.keys(_manifestMembers2.default.icons).forEach(function (s) {
-				if (s <= dim.width) {
-					sizes[s] = _manifestMembers2.default.icons[s];
-				}
-			});
-
+			// resize images by preset
 			return {
-				v: (0, _squareImage2.default)(filename, abspath, sizes).then(function (icons) {
+				v: (0, _squareImage2.default)(filename, abspath, filterImageSize(filename, size.width)).then(function (icons) {
 					answers.icons = (0, _mapObj2.default)(icons, function (icon, p) {
 						p.src = _path2.default.join(_path2.default.relative(manifestDest, abspath), p.src);
 						return [icon, p];

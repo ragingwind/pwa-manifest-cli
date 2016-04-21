@@ -45,23 +45,25 @@ const ask = cli.flags.interactive ? inquirer.ask() : Promise.resolve(
 );
 const manifestDest = cli.input[0] ? path.resolve(process.cwd(), cli.input[0].replace(/manifest.json$/, '')) : process.cwd();
 const iconsDest = cli.input[1] ? path.resolve(process.cwd(), cli.input[1]) : manifestDest;
+const filterImageSize = (image, max) => {
+	return mapObj(members.icons, (size, icon) => {
+		if (size <= max) {
+			return [size, icon];
+		}
+	});
+};
 
 ask.then(answers => {
 	if (answers.icons) {
 		let filename = path.resolve(process.cwd(), answers.icons);
 		let abspath = path.resolve(manifestDest, iconsDest);
-		let dim = sizeof(filename);
-		let sizes = {};
+		let size = sizeof(filename);
 
+		// creat a target path
 		mkdirp.sync(abspath);
 
-		Object.keys(members.icons).forEach(s => {
-			if (s <= dim.width) {
-				sizes[s] = members.icons[s];
-			}
-		});
-
-		return square(filename, abspath, sizes).then(icons => {
+		// resize images by preset
+		return square(filename, abspath, filterImageSize(filename, size.width)).then(icons => {
 			answers.icons = mapObj(icons, (icon, p) => {
 				p.src = path.join(path.relative(manifestDest, abspath), p.src);
 				return [icon, p];
