@@ -125,3 +125,18 @@ test(t => {
 		});
 	});
 });
+
+test(t => {
+	tmp = rndTmpdir('pwa-manifest');
+	opts.icons = 'https://cdn0.iconfinder.com/data/icons/social-flat-rounded-rects/512/whatsapp-512.png';
+
+	return exec([tmp], opts, m => {
+		if (m instanceof Error) {
+			t.fail();
+			return;
+		}
+
+		Object.keys(m.icons).forEach(icon => icon.indexOf('image/icons') === 0);
+		t.ok(verifyIcons(m.icons));
+	});
+});

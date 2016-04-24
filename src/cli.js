@@ -8,7 +8,10 @@ import decamelize from 'decamelize';
 import sizeof from 'image-size';
 import square from 'square-image';
 import path from 'path';
+import got from 'got';
+import fs from 'fs';
 import mkdirp from 'mkdirp';
+import rndTmpdir from 'os-random-tmpdir';
 import members from './assets/manifest-members.json';
 
 const cli = meow([`
@@ -53,13 +56,34 @@ const filterImageSize = (image, max) => {
 	});
 };
 
-ask.then(answers => {
+const prepareIcon = answers => {
+	return new Promise((resolve, reject) => {
+		if (!answers.icons) {
+			resolve(answers);
+		} else if (/^https?/.test(answers.icons)) {
+			const url = answers.icons;
+			const dir = rndTmpdir('pwa-manifest');
+
+			mkdirp.sync(dir);
+			answers.icons = path.join(dir, path.basename(answers.icons));
+
+			got.stream(url).pipe(fs.createWriteStream(answers.icons)
+				.on('finish', () => resolve(answers))
+				.on('error', () => reject())
+			);
+		} else {
+			answers.icons = path.resolve(process.cwd(), answers.icons);
+			resolve(answers);
+		}
+	});
+};
+
+const squareIcon = answers => {
 	if (answers.icons) {
-		let filename = path.resolve(process.cwd(), answers.icons);
+		let filename = answers.icons;
 		let abspath = path.resolve(manifestDest, iconsDest);
 		let size = sizeof(filename);
 
-		// creat a target path
 		mkdirp.sync(abspath);
 
 		// resize images by preset
@@ -73,11 +97,14 @@ ask.then(answers => {
 	}
 
 	return answers;
-})
-.then(answers => pwaManifest(answers))
-.then(manifest => {
-	pwaManifest.write(manifestDest, manifest);
-})
-.catch(e => {
-	console.error(e.stack);
-});
+};
+
+ask.then(prepareIcon)
+	.then(squareIcon)
+	.then(pwaManifest)
+	.then(manifest => {
+		pwaManifest.write(manifestDest, manifest);
+	})
+	.catch(e => {
+		console.error(e.stack);
+	});

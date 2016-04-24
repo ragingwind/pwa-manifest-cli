@@ -35,9 +35,21 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
+var _got = require('got');
+
+var _got2 = _interopRequireDefault(_got);
+
+var _fs = require('fs');
+
+var _fs2 = _interopRequireDefault(_fs);
+
 var _mkdirp = require('mkdirp');
 
 var _mkdirp2 = _interopRequireDefault(_mkdirp);
+
+var _osRandomTmpdir = require('os-random-tmpdir');
+
+var _osRandomTmpdir2 = _interopRequireDefault(_osRandomTmpdir);
 
 var _manifestMembers = require('./assets/manifest-members.json');
 
@@ -60,14 +72,36 @@ var filterImageSize = function filterImageSize(image, max) {
 	});
 };
 
-ask.then(function (answers) {
+var prepareIcon = function prepareIcon(answers) {
+	return new Promise(function (resolve, reject) {
+		if (!answers.icons) {
+			resolve(answers);
+		} else if (/^https?/.test(answers.icons)) {
+			var url = answers.icons;
+			var dir = (0, _osRandomTmpdir2.default)('pwa-manifest');
+
+			_mkdirp2.default.sync(dir);
+			answers.icons = _path2.default.join(dir, _path2.default.basename(answers.icons));
+
+			_got2.default.stream(url).pipe(_fs2.default.createWriteStream(answers.icons).on('finish', function () {
+				return resolve(answers);
+			}).on('error', function () {
+				return reject();
+			}));
+		} else {
+			answers.icons = _path2.default.resolve(process.cwd(), answers.icons);
+			resolve(answers);
+		}
+	});
+};
+
+var squareIcon = function squareIcon(answers) {
 	if (answers.icons) {
 		var _ret = function () {
-			var filename = _path2.default.resolve(process.cwd(), answers.icons);
+			var filename = answers.icons;
 			var abspath = _path2.default.resolve(manifestDest, iconsDest);
 			var size = (0, _imageSize2.default)(filename);
 
-			// creat a target path
 			_mkdirp2.default.sync(abspath);
 
 			// resize images by preset
@@ -86,9 +120,9 @@ ask.then(function (answers) {
 	}
 
 	return answers;
-}).then(function (answers) {
-	return (0, _pwaManifest2.default)(answers);
-}).then(function (manifest) {
+};
+
+ask.then(prepareIcon).then(squareIcon).then(_pwaManifest2.default).then(function (manifest) {
 	_pwaManifest2.default.write(manifestDest, manifest);
 }).catch(function (e) {
 	console.error(e.stack);

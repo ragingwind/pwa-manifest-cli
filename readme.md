@@ -6,10 +6,16 @@ Using in interactive mode
 
 ![](http://g.recordit.co/kwR4Dh7rM3.gif)
 
-or manually
+, or manually
 
 ```sh
  pwa-manifest --icons=./images/logo.png
+```
+
+, or with free icons from [iconfinder.com](https://iconfinder.com/) with [if-got-cli](https://github.com/ragingwind/if-got-cli)
+
+```sh
+pwa-manifest ./ ./image/icons --icons=$(if-got icons search --query=love)
 ```
 
 ## Install
@@ -32,6 +38,9 @@ Get more information via help
 # show help
 $ pwa-manifest --help
 
+# Icon from iconfinder
+$ pwa-manifest ./ ./image/icons --icons=$(if-got icons search --query=love)
+
 # generate manifest.json and resized icons to `./app`.
 $ pwa-manifest ./app --icons=./logo.png
 
@@ -49,9 +58,9 @@ $ pwa-manifest --interactive
 
 ### --icons
 
-`icons` requires the path of source image. It will generated those of icons in multiple sizes under the actual size of the source image and the names of resized image presetting in manifest are not able to be changed by option yet.
+`icons` requires `the path` or `http address` of source image. It will generated those of icons in multiple sizes under the actual size of the source image and the names of resized image presetting in manifest are not able to be changed by option yet.
 
 
 ## License
 
-MIT © [ragingwind](http://ragingwind.me)
+MIT © [Jimmy Moon](http://ragingwind.me)
