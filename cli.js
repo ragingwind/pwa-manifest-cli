@@ -107,8 +107,10 @@ var squareIcon = function squareIcon(answers) {
 			// resize images by preset
 			return {
 				v: (0, _squareImage2.default)(filename, abspath, filterImageSize(filename, size.width)).then(function (icons) {
-					answers.icons = (0, _mapObj2.default)(icons, function (icon, p) {
+					answers.icons = [];
+					(0, _mapObj2.default)(icons, function (icon, p) {
 						p.src = _path2.default.join(_path2.default.relative(manifestDest, abspath), p.src);
+						answers.icons.push(p);
 						return [icon, p];
 					});
 					return answers;

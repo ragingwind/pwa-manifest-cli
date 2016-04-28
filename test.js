@@ -22,10 +22,11 @@ const args = (input, params) => input.concat(Object.keys(params).map(m => `--${m
 
 const verifyIcons = icons => {
 	var res = [];
-	Object.keys(icons).forEach(size => {
-		const icon = path.resolve(process.cwd(), path.join(tmp, icons[size].src));
+	icons.forEach(dest => {
+		const icon = path.resolve(process.cwd(), path.join(tmp, dest.src));
+		const size = Math.floor(dest.sizes.slice(0, dest.sizes.indexOf('x')));
 		var dimensions = sizeof(icon);
-		size = Math.floor(size);
+
 		res.push(
 			dimensions.height === size &&
 			dimensions.width === size

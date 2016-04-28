@@ -88,8 +88,10 @@ const squareIcon = answers => {
 
 		// resize images by preset
 		return square(filename, abspath, filterImageSize(filename, size.width)).then(icons => {
-			answers.icons = mapObj(icons, (icon, p) => {
+			answers.icons = [];
+			mapObj(icons, (icon, p) => {
 				p.src = path.join(path.relative(manifestDest, abspath), p.src);
+				answers.icons.push(p);
 				return [icon, p];
 			});
 			return answers;
