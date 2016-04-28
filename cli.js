@@ -3,6 +3,8 @@
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
+require('babel-polyfill');
+
 var _meow = require('meow');
 
 var _meow2 = _interopRequireDefault(_meow);
@@ -64,7 +66,7 @@ var ask = cli.flags.interactive ? _pwaInquirer2.default.ask() : Promise.resolve(
 }));
 var manifestDest = cli.input[0] ? _path2.default.resolve(process.cwd(), cli.input[0].replace(/manifest.json$/, '')) : process.cwd();
 var iconsDest = cli.input[1] ? _path2.default.resolve(process.cwd(), cli.input[1]) : manifestDest;
-var filterImageSize = function filterImageSize(image, max) {
+var filterImageSize = function filterImageSize(max) {
 	return (0, _mapObj2.default)(_manifestMembers2.default.icons, function (size, icon) {
 		if (size <= max) {
 			return [size, icon];
@@ -106,12 +108,10 @@ var squareIcon = function squareIcon(answers) {
 
 			// resize images by preset
 			return {
-				v: (0, _squareImage2.default)(filename, abspath, filterImageSize(filename, size.width)).then(function (icons) {
-					answers.icons = [];
-					(0, _mapObj2.default)(icons, function (icon, p) {
-						p.src = _path2.default.join(_path2.default.relative(manifestDest, abspath), p.src);
-						answers.icons.push(p);
-						return [icon, p];
+				v: (0, _squareImage2.default)(filename, abspath, filterImageSize(size.width)).then(function (icons) {
+					answers.icons = Object.values(icons).map(function (i) {
+						i.src = _path2.default.join(_path2.default.relative(manifestDest, abspath), i.src);
+						return i;
 					});
 					return answers;
 				})

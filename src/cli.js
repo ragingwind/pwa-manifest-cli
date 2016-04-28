@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import 'babel-polyfill';
 import meow from 'meow';
 import pwaManifest from 'pwa-manifest';
 import inquirer from './pwa-inquirer';
@@ -48,7 +49,7 @@ const ask = cli.flags.interactive ? inquirer.ask() : Promise.resolve(
 );
 const manifestDest = cli.input[0] ? path.resolve(process.cwd(), cli.input[0].replace(/manifest.json$/, '')) : process.cwd();
 const iconsDest = cli.input[1] ? path.resolve(process.cwd(), cli.input[1]) : manifestDest;
-const filterImageSize = (image, max) => {
+const filterImageSize = max => {
 	return mapObj(members.icons, (size, icon) => {
 		if (size <= max) {
 			return [size, icon];
@@ -87,12 +88,10 @@ const squareIcon = answers => {
 		mkdirp.sync(abspath);
 
 		// resize images by preset
-		return square(filename, abspath, filterImageSize(filename, size.width)).then(icons => {
-			answers.icons = [];
-			mapObj(icons, (icon, p) => {
-				p.src = path.join(path.relative(manifestDest, abspath), p.src);
-				answers.icons.push(p);
-				return [icon, p];
+		return square(filename, abspath, filterImageSize(size.width)).then(icons => {
+			answers.icons = Object.values(icons).map(i => {
+				i.src = path.join(path.relative(manifestDest, abspath), i.src);
+				return i;
 			});
 			return answers;
 		});
