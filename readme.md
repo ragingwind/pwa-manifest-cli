@@ -39,7 +39,7 @@ Get more information via help
 $ pwa-manifest --help
 
 # Icon from iconfinder
-$ pwa-manifest ./ ./image/icons --icons=$(if-got icons search --query=love)
+$ pwa-manifest ./ ./image/icons --icons=$(if-got icons search --query=love --count=1)
 
 # generate manifest.json and resized icons to `./app`.
 $ pwa-manifest ./app --icons=./logo.png
