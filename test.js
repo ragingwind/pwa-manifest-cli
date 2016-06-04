@@ -5,6 +5,7 @@ import pwaManifest from 'pwa-manifest';
 import path from 'path';
 import sizeof from 'image-size';
 import cpy from 'cpy';
+import dargs from 'dargs';
 
 let tmp;
 
@@ -17,8 +18,6 @@ const opts = {
 	background_color: '#010101',
 	icons: './fixtures/logo.png'
 };
-
-const args = (input, params) => input.concat(Object.keys(params).map(m => `--${m}=${opts[m]}`));
 
 const verifyIcons = icons => {
 	var res = [];
@@ -37,7 +36,7 @@ const verifyIcons = icons => {
 };
 
 const exec = (input, opts, verify) => {
-	return execa('./cli.js', args(input, opts), {cwd: __dirname})
+	return execa('./cli.js', input.concat(dargs(opts)), {cwd: __dirname})
 		.then(res => {
 			if (res.stdout) {
 				console.log(res.stdout);
