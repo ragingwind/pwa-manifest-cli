@@ -21,7 +21,7 @@ pwa-manifest ./ ./image/icons --icons=$(if-got icons search --query=love)
 ## Install
 
 ```
-$ npm install --save pwa-manifest-cli
+$ npm install -g pwa-manifest-cli
 ```
 
 ## Usage
@@ -48,7 +48,7 @@ $ pwa-manifest ./app --icons=./logo.png
 $ pwa-manifest ./app ./app/images/icons --icons=./logo.png
 
 # generate manifest.json to './' with updated values of name, short_name, background_color, theme_color, orientation, and direction as well as resizes images
-$ pwa-manifest --name='My Progressive Web App' --short='My PWA' --display=fullscreen --background_color=#fefefe --theme_color=#f44336 --orientation=any --direction=portrait --icons=./images/logo.png
+$ pwa-manifest --name='My Progressive Web App' --short_name='My PWA' --display=fullscreen --background_color=#fefefe --theme_color=#f44336 --orientation=any --direction=portrait --icons=./images/logo.png
 
 # using interactive mode for generating manifest.json and resized images to current working path
 $ pwa-manifest --interactive
@@ -58,7 +58,7 @@ $ pwa-manifest --interactive
 
 ### --icons
 
-`icons` requires `the path` or `http address` of source image. It will generated those of icons in multiple sizes under the actual size of the source image and the names of resized image presetting in manifest are not able to be changed by option yet.
+`path` or `http address` can be used for icons of source image. It will generated those of icons in multiple sizes (144, 192 and 512) and named by size of image into manifest. There is no way to be able to be changed by option yet.
 
 
 ## License
