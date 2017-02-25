@@ -40,7 +40,7 @@ const cli = meow([`
 	Examples
 		$ pwa-manifest ./app --icons=./logo.png
 		$ pwa-manifest ./app ./app/images/icons --icons=./logo.png
-		$ pwa-manifest --name='My Progressive Web App' --short='My PWA' --display=fullscreen --background_color=#fefefe --theme_color=#f44336 --orientation=any --direction=portrait --icons=./images/logo.png
+		$ pwa-manifest --name='My Progressive Web App' --short_name='My PWA' --display=fullscreen --background_color=#fefefe --theme_color=#f44336 --orientation=any --direction=portrait --icons=./images/logo.png
 		$ pwa-manifest --interactive
 `]);
 

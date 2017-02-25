@@ -44,7 +44,7 @@
     "meow": "^3.7.0",
     "mkdirp": "^0.5.1",
     "os-random-tmpdir": "^0.1.0",
-    "pwa-manifest": "^0.1.0",
+    "pwa-manifest": "^0.1.3",
     "read-pkg": "^1.1.0",
     "square-image": "^0.0.6"
   },
