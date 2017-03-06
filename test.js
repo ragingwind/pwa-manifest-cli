@@ -1,3 +1,4 @@
+import fs from 'fs';
 import test from 'ava';
 import execa from 'execa';
 import rndTmpdir from 'os-random-tmpdir';
@@ -10,7 +11,7 @@ import dargs from 'dargs';
 let tmp;
 
 const opts = {
-	name: 'My Short PWA Name',
+	name: 'My PWA Name',
 	short_name: 'My PWA Short Name',
 	start_url: '/main.html?homescreen=1',
 	display: 'browser',
@@ -33,6 +34,11 @@ const verifyIcons = icons => {
 	});
 
 	return res.every(r => r === true);
+};
+
+const verifyFavico = () => {
+	const favico = path.resolve(process.cwd(), path.join(tmp, 'favicon.ico'));
+	return fs.statSync(favico).isFile();
 };
 
 const exec = (input, opts, verify) => {
@@ -80,7 +86,7 @@ test(t => {
 			t.is(m.display, opts.display);
 			t.is(m.orientation, opts.orientation);
 			t.is(m.background_color, opts.background_color);
-			t.ok(verifyIcons(m.icons, tmp));
+			t.true(verifyIcons(m.icons, tmp));
 		});
 	});
 });
@@ -94,7 +100,7 @@ test(t => {
 			}
 
 			const last = Object.keys(m.icons).pop();
-			t.ok(verifyIcons(m.icons, '.'));
+			t.true(verifyIcons(m.icons, '.'));
 			t.is(Math.floor(last), 384);
 		});
 	});
@@ -121,7 +127,7 @@ test(t => {
 			}
 
 			Object.keys(m.icons).forEach(icon => icon.indexOf('image/icons') === 0);
-			t.ok(verifyIcons(m.icons));
+			t.true(verifyIcons(m.icons));
 		});
 	});
 });
@@ -137,6 +143,7 @@ test(t => {
 		}
 
 		Object.keys(m.icons).forEach(icon => icon.indexOf('image/icons') === 0);
-		t.ok(verifyIcons(m.icons));
+		t.true(verifyIcons(m.icons));
+		t.true(verifyFavico());
 	});
 });

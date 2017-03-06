@@ -13,6 +13,7 @@ import got from 'got';
 import fs from 'fs';
 import mkdirp from 'mkdirp';
 import rndTmpdir from 'os-random-tmpdir';
+import toIco from 'to-ico';
 import members from './assets/manifest-members.json';
 
 const cli = meow([`
@@ -87,31 +88,62 @@ const prepareIcon = answers => {
 	});
 };
 
+const writeFavico = (src, dest) => {
+	return new Promise((resolve, reject) => {
+		fs.readFile(src, (err, image) => {
+			if (err) {
+				reject(new Error('Failed to generate favicon'));
+				return;
+			}
+
+			toIco(image).then(buf => {
+				fs.writeFile(path.join(dest, 'favicon.ico'), buf, err => {
+					if (err) {
+						reject(new Error('Failed to generate favicon'));
+						return;
+					}
+
+					resolve();
+				});
+			});
+		});
+	});
+};
+
 // resize icons in square shape
-const squareIcon = answers => {
-	if (answers.icons) {
+const squareIcons = answers => {
+	return new Promise(resolve => {
+		if (!answers.icons) {
+			resolve(answers);
+			return;
+		}
+
 		let filename = answers.icons;
 		let abspath = path.resolve(manifestDest, iconsDest);
 		let size = sizeof(filename);
 
-		mkdirp.sync(abspath);
+		mkdirp(abspath, () => {
+			// resize images by preset
+			return square(filename, abspath, filterImageSize(size.width))
+				.then(icons => {
+					// remap icons' path for manifest.json
+					answers.icons = Object.values(icons).map(i => {
+						i.src = path.join(path.relative(manifestDest, abspath), i.src);
+						return i;
+					});
 
-		// resize images by preset
-		return square(filename, abspath, filterImageSize(size.width)).then(icons => {
-			answers.icons = Object.values(icons).map(i => {
-				i.src = path.join(path.relative(manifestDest, abspath), i.src);
-				return i;
-			});
-			return answers;
+					// favicon writing by minimum image size
+					// to-icon doesn't support that use image of over 512 size
+					return writeFavico(path.join(abspath, answers.icons[0].src), manifestDest)
+						.then(() => resolve(answers));
+				});
 		});
-	}
-
-	return answers;
+	});
 };
 
 // main runner
 ask.then(prepareIcon)
-	.then(squareIcon)
+	.then(squareIcons)
 	.then(pwaManifest)
 	.then(manifest => {
 		pwaManifest.write(manifestDest, manifest);
