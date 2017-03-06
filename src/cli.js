@@ -44,11 +44,18 @@ const cli = meow([`
 		$ pwa-manifest --interactive
 `]);
 
+// set manifest destination
+const manifestDest = cli.input[0] ? path.resolve(process.cwd(), cli.input[0].replace(/manifest.json$/, '')) : process.cwd();
+
+// set icons destination
+const iconsDest = cli.input[1] ? path.resolve(process.cwd(), cli.input[1]) : manifestDest;
+
+// determine interactive mode or not
 const ask = cli.flags.interactive ? inquirer.ask() : Promise.resolve(
 	mapObj(cli.flags, (key, value) => [decamelize(key, '_'), value])
 );
-const manifestDest = cli.input[0] ? path.resolve(process.cwd(), cli.input[0].replace(/manifest.json$/, '')) : process.cwd();
-const iconsDest = cli.input[1] ? path.resolve(process.cwd(), cli.input[1]) : manifestDest;
+
+// fiter image by size
 const filterImageSize = max => {
 	return mapObj(members.icons, (size, icon) => {
 		if (size <= max) {
