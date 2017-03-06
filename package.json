@@ -1,6 +1,6 @@
 {
   "name": "pwa-manifest-cli",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Cli for Creating a Web Manifest for Progressive Web App with interactive mode",
   "license": "MIT",
   "repository": "ragingwind/pwa-manifest-cli",
