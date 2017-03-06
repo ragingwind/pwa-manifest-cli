@@ -1,6 +1,6 @@
 # pwa-manifest-cli [![Build Status](https://travis-ci.org/ragingwind/pwa-manifest-cli.svg?branch=master)](https://travis-ci.org/ragingwind/pwa-manifest-cli)
 
-> Cli for Creating a Web Manifest for Progressive Web App with interactive or command mode
+> Generating manifest, icons and favicon.ico for Progressive Web App by interactive or command mode
 
 Using in interactive mode
 
@@ -58,7 +58,7 @@ $ pwa-manifest --interactive
 
 ### --icons
 
-`path` or `http address` can be used for icons of source image. It will generated those of icons in multiple sizes (144, 192 and 512) and named by size of image into manifest. There is no way to be able to be changed by option yet.
+`path` or `http address` can be used for icons of source image. It will generated those of icons in multiple sizes (144, 192 and 512) and named by size of image into manifest. There is no way to be able to be changed by option yet. favicon.icon will be created from icons files at same location of `manifest.json`
 
 
 ## License

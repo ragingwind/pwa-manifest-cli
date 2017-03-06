@@ -134,7 +134,7 @@ const squareIcons = answers => {
 
 					// favicon writing by minimum image size
 					// to-icon doesn't support that use image of over 512 size
-					return writeFavico(path.join(abspath, answers.icons[0].src), manifestDest)
+					return writeFavico(path.join(manifestDest, answers.icons[0].src), manifestDest)
 						.then(() => resolve(answers));
 				});
 		});

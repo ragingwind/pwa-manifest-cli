@@ -152,7 +152,7 @@ var squareIcons = function squareIcons(answers) {
 
 				// favicon writing by minimum image size
 				// to-icon doesn't support that use image of over 512 size
-				return writeFavico(_path2.default.join(abspath, answers.icons[0].src), manifestDest).then(function () {
+				return writeFavico(_path2.default.join(manifestDest, answers.icons[0].src), manifestDest).then(function () {
 					return resolve(answers);
 				});
 			});
