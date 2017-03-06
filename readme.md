@@ -58,7 +58,7 @@ $ pwa-manifest --interactive
 
 ### --icons
 
-`path` or `http address` can be used for icons of source image. It will generated those of icons in multiple sizes (144, 192 and 512) and named by size of image into manifest. There is no way to be able to be changed by option yet. favicon.icon will be created from icons files at same location of `manifest.json`
+`path` or `http address` can be used for icons of source image. It will generated those of icons in multiple sizes (144, 192 and 512) and named by size of image into manifest. There is no way to be able to be changed by option yet. `favicon.ico` will be created from icons files at same location of `manifest.json`
 
 
 ## License
