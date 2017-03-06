@@ -64,6 +64,7 @@ const filterImageSize = max => {
 	});
 };
 
+// prepare icons it can be from online and local
 const prepareIcon = answers => {
 	return new Promise((resolve, reject) => {
 		if (!answers.icons) {
@@ -86,6 +87,7 @@ const prepareIcon = answers => {
 	});
 };
 
+// resize icons in square shape
 const squareIcon = answers => {
 	if (answers.icons) {
 		let filename = answers.icons;
@@ -107,6 +109,7 @@ const squareIcon = answers => {
 	return answers;
 };
 
+// main runner
 ask.then(prepareIcon)
 	.then(squareIcon)
 	.then(pwaManifest)
