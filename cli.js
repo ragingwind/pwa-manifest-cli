@@ -15,6 +15,10 @@ var _pwaInquirer = require('./pwa-inquirer');
 
 var _pwaInquirer2 = _interopRequireDefault(_pwaInquirer);
 
+var _filterObj = require('filter-obj');
+
+var _filterObj2 = _interopRequireDefault(_filterObj);
+
 var _mapObj = require('map-obj');
 
 var _mapObj2 = _interopRequireDefault(_mapObj);
@@ -76,10 +80,8 @@ var ask = cli.flags.interactive ? _pwaInquirer2.default.ask() : Promise.resolve(
 
 // fiter image by size
 var filterImageSize = function filterImageSize(max) {
-	return (0, _mapObj2.default)(_manifestMembers2.default.icons, function (size, icon) {
-		if (size <= max) {
-			return [size, icon];
-		}
+	return (0, _filterObj2.default)(_manifestMembers2.default.icons, function (size) {
+		return size <= max;
 	});
 };
 

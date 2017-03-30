@@ -147,3 +147,15 @@ test(t => {
 		t.true(verifyFavico());
 	});
 });
+
+test(t => {
+	return prepare('./fixtures/logo-384x384.png').then(() => {
+		return exec([tmp], opts, m => {
+			if (m instanceof Error) {
+				console.log(m);
+				t.fail();
+				return;
+			}
+		});
+	});
+});

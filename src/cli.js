@@ -4,6 +4,7 @@ import 'babel-polyfill';
 import meow from 'meow';
 import pwaManifest from 'pwa-manifest';
 import inquirer from './pwa-inquirer';
+import filterObj from 'filter-obj';
 import mapObj from 'map-obj';
 import decamelize from 'decamelize';
 import sizeof from 'image-size';
@@ -57,13 +58,7 @@ const ask = cli.flags.interactive ? inquirer.ask() : Promise.resolve(
 );
 
 // fiter image by size
-const filterImageSize = max => {
-	return mapObj(members.icons, (size, icon) => {
-		if (size <= max) {
-			return [size, icon];
-		}
-	});
-};
+const filterImageSize = max => filterObj(members.icons, size => size <= max);
 
 // prepare icons it can be from online and local
 const prepareIcon = answers => {
